@@ -1,17 +1,39 @@
 var ApiKey = "4eff477c6d9d41318aa5b82e07d830c4";
 
 
-
 function testFunction() {
-    var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=4eff477c6d9d41318aa5b82e07d830c4";
+
+
+    var searchTerm = $("#searchTerm").val();
+    var numRec = $("#numberOf").val();
+    var yearEnd = $("#yearEnd").val();
+    var yearStart = $("#yearStarts").val();
+
+
+    var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+    url += '?' + $.param({
+        'api-key': "4eff477c6d9d41318aa5b82e07d830c4",
+        'q': searchTerm,
+        'page': 1
+    });
+
     $.ajax({
         url: url,
         method: 'GET',
     }).done(function (result) {
         console.log(result);
+        result.response.docs.forEach(function (e) {
+            addArticles(e);
+        })
     }).fail(function (err) {
         throw err;
     });
+}
+
+function addArticles(element) {
+    var newDiv = $('<div>');
+    newDiv.text(element.uri);
+    $(".toDrop").append(newDiv);
 }
 
 testFunction();
