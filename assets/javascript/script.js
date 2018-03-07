@@ -17,11 +17,14 @@ function testFunction() {
         'page': 1
     });
 
-    $.ajax({
+    $.ajax({        
         url: url,
         method: 'GET',
     }).done(function (result) {
         console.log(result);
+        console.log(url);
+        console.log($("#searchTerm").val());
+        console.log("search term: " + searchTerm);
         result.response.docs.forEach(function (e) {
             addArticles(e);
         })
@@ -30,12 +33,13 @@ function testFunction() {
     });
 }
 
-function addArticles(element) {
+function addArticles(element) {    
     var newDiv = $('<div>');
     newDiv.text(element.uri);
     $(".toDrop").append(newDiv);
 }
 
+$('#test1').on('click', testFunction);
 testFunction();
 
 function startSearch(term, recordNum, startYear = '', endYear = '') {
